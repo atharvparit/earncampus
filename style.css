@@ -61,3 +61,22 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
+
+.feed-section {
+  margin: 15px;
+}
+
+.post-card {
+  background: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.post-title {
+  font-weight: bold;
+}
+
+.post-price {
+  color: green;
+}
