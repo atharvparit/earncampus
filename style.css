@@ -14,3 +14,24 @@ body {
 .app-title {
   margin: 0;
 }
+
+
+.tab-section {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  border: none;
+  margin: 0 5px;
+  cursor: pointer;
+  background: #ddd;
+  border-radius: 5px;
+}
+
+.active-tab {
+  background: #222;
+  color: white;
+}
