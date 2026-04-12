@@ -23,6 +23,8 @@ function switchTab() {
 
   feedHeading.innerText =
     currentTab === "need" ? "I NEED POSTS" : "I OFFER POSTS";
+
+    renderPosts();
 }
 
 let postBtn = document.getElementById("postBtn");
@@ -48,5 +50,29 @@ postBtn.addEventListener("click", function () {
   } else {
     offerPosts.push(post);
   }
+
+  renderPosts();
 });
 
+
+
+let postFeed = document.getElementById("postFeed");
+
+function renderPosts() {
+  postFeed.innerHTML = "";
+
+  let posts = currentTab === "need" ? needPosts : offerPosts;
+
+  posts.forEach(function (post) {
+    let postDiv = document.createElement("div");
+    postDiv.className = "post-card";
+
+    postDiv.innerHTML = `
+      <div class="post-title">${post.title}</div>
+      <div>${post.details}</div>
+      <div class="post-price">₹${post.price}</div>
+    `;
+
+    postFeed.appendChild(postDiv);
+  });
+}
