@@ -52,6 +52,8 @@ postBtn.addEventListener("click", function () {
   }
 
   renderPosts();
+
+  clearForm();
 });
 
 
@@ -75,4 +77,11 @@ function renderPosts() {
 
     postFeed.appendChild(postDiv);
   });
+}
+
+
+function clearForm() {
+  document.getElementById("postTitle").value = "";
+  document.getElementById("postDetails").value = "";
+  document.getElementById("postPrice").value = "";
 }
