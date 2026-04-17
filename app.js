@@ -104,14 +104,24 @@ function clearForm() {
 //interests
 function markInterested(index) {
   let name = prompt("Enter your name");
-
   if (!name) return;
+  name = name.trim();
+  if(name === ""){
+    alert("Name cannot be empty");
+    return;
+  }
 
   let posts = currentTab === "need" ? needPosts : offerPosts;
 
   // safety check
   if (!posts[index].interestedUsers) {
     posts[index].interestedUsers = [];
+  }
+
+  //prevent doplicate
+  if (posts[index].interestedUsers.includes(name)) {
+    alert("You have already shown interest!");
+    return;
   }
 
   posts[index].interestedUsers.push(name);
