@@ -54,6 +54,8 @@ postBtn.addEventListener("click", function () {
   renderPosts();
 
   clearForm();
+
+  interestedUsers: []
 });
 
 
@@ -65,7 +67,7 @@ function renderPosts() {
 
   let posts = currentTab === "need" ? needPosts : offerPosts;
 
-  posts.forEach(function (post) {
+  posts.forEach(function (post, index) {
     let postDiv = document.createElement("div");
     postDiv.className = "post-card";
 
@@ -73,6 +75,19 @@ function renderPosts() {
       <div class="post-title">${post.title}</div>
       <div>${post.details}</div>
       <div class="post-price">₹${post.price}</div>
+
+      ${
+        currentTab === "need"
+          ? `<button onclick="markInterested(${index})">I CAN DO THIS</button>`
+          : ""
+      }
+
+      <div>
+        ${(post.interestedUsers || []).length > 0 
+          ? (post.interestedUsers.map(user => `<div>👤 ${user}</div>`).join(""))
+          : "<div style='font-size:12px;color:gray;'>No one yet</div>"
+        }
+      </div>
     `;
 
     postFeed.appendChild(postDiv);
@@ -84,4 +99,22 @@ function clearForm() {
   document.getElementById("postTitle").value = "";
   document.getElementById("postDetails").value = "";
   document.getElementById("postPrice").value = "";
+}
+
+//interests
+function markInterested(index) {
+  let name = prompt("Enter your name");
+
+  if (!name) return;
+
+  let posts = currentTab === "need" ? needPosts : offerPosts;
+
+  // safety check
+  if (!posts[index].interestedUsers) {
+    posts[index].interestedUsers = [];
+  }
+
+  posts[index].interestedUsers.push(name);
+
+  renderPosts();
 }
