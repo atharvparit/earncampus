@@ -42,7 +42,9 @@ postBtn.addEventListener("click", function () {
   let post = {
     title: title,
     details: details,
-    price: price
+    price: price,
+    interestedUsers: [],
+    hasResponded: false
   };
 
   if (currentTab === "need") {
@@ -78,7 +80,9 @@ function renderPosts() {
 
       ${
         currentTab === "need"
-          ? `<button onclick="markInterested(${index})">I CAN DO THIS</button>`
+          ? post.hasResponded
+            ? `<button disabled style="opacity:0.6;">Already Offered</button>`
+            : `<button onclick="markInterested(${index})">I CAN DO This</button>`
           : ""
       }
 
@@ -125,6 +129,7 @@ function markInterested(index) {
   }
 
   posts[index].interestedUsers.push(name);
+  posts[index].hasResponded = true;
 
   renderPosts();
 }
