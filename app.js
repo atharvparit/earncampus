@@ -44,7 +44,8 @@ postBtn.addEventListener("click", function () {
     details: details,
     price: price,
     interestedUsers: [],
-    hasResponded: false
+    hasResponded: false,
+    showInput: false
   };
 
   if (currentTab === "need") {
@@ -57,7 +58,6 @@ postBtn.addEventListener("click", function () {
 
   clearForm();
 
-  interestedUsers: []
 });
 
 
@@ -82,7 +82,14 @@ function renderPosts() {
         currentTab === "need"
           ? post.hasResponded
             ? `<button disabled style="opacity:0.6;">Already Offered</button>`
-            : `<button onclick="markInterested(${index})">I CAN DO This</button>`
+            : post.showInput
+              ? `
+                <div>
+                  <input id="nameInput-${index}" placeholder="Enter your name" />
+                  <button onclick="submitInterest(${index})">Submit</button>
+                </div>
+              `
+              : `<button onclick="showInputBox(${index})">Offer Help</button>`
           : ""
       }
 
@@ -130,6 +137,46 @@ function markInterested(index) {
 
   posts[index].interestedUsers.push(name);
   posts[index].hasResponded = true;
+
+  renderPosts();
+}
+
+function showInputBox(index) {
+  let posts = currentTab === "need" ? needPosts : offerPosts;
+
+  posts[index].showInput = true;
+
+  renderPosts();
+}
+
+function submitInterest(index) {
+  let input = document.getElementById(`nameInput-${index}`);
+  let name = input.value;
+
+  if (!name) return;
+
+  name = name.trim();
+
+  if (name === "") {
+    alert("Name cannot be empty");
+    return;
+  }
+
+  let posts = currentTab === "need" ? needPosts : offerPosts;
+
+  if (!posts[index].interestedUsers) {
+    posts[index].interestedUsers = [];
+  }
+
+  if (posts[index].interestedUsers.includes(name)) {
+    alert("You have already shown interest!");
+    return;
+  }
+
+  posts[index].interestedUsers.push(name);
+
+  posts[index].hasResponded = true;
+  posts[index].showInput = false;
 
   renderPosts();
 }
