@@ -44,8 +44,8 @@ postBtn.addEventListener("click", function () {
     details: details,
     price: price,
     interestedUsers: [],
-
-    showInput: false
+    showInput: false,
+    selectedUser: null
   };
 
   if (currentTab === "need") {
@@ -96,9 +96,21 @@ function renderPosts() {
           ${(post.interestedUsers || []).length} interested
         </div>
 
-        ${(post.interestedUsers || []).length > 0 
-          ? post.interestedUsers.map(user => `<div>👤 ${user}</div>`).join("")
-          : "<div style='font-size:12px;color:gray;'>No one yet</div>"
+        ${
+          post.selectedUser
+            ? `<div style="color:green; font-weight:bold;">✅ Selected: ${post.selectedUser}</div>`
+            : (post.interestedUsers || []).length > 0
+              ? post.interestedUsers.map((user, i) => `
+                  <div>
+                    👤 ${user}
+                    ${
+                      currentTab === "need"
+                        ? `<button onclick="acceptUser(${index}, ${i})" style="margin-left:10px;">Accept</button>`
+                        : ""
+                    }
+                  </div>
+                `).join("")
+              : "<div style='font-size:12px;color:gray;'>No one yet</div>"
         }
       </div>
     `;
@@ -178,6 +190,18 @@ function submitInterest(index) {
 
 
   posts[index].showInput = false;
+
+  renderPosts();
+}
+
+//accpt fn
+
+function acceptUser(postIndex, userIndex) {
+  let posts = currentTab === "need" ? needPosts : offerPosts;
+
+  let selected = posts[postIndex].interestedUsers[userIndex];
+
+  posts[postIndex].selectedUser = selected;
 
   renderPosts();
 }
