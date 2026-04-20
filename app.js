@@ -44,7 +44,7 @@ postBtn.addEventListener("click", function () {
     details: details,
     price: price,
     interestedUsers: [],
-    hasResponded: false,
+
     showInput: false
   };
 
@@ -80,22 +80,24 @@ function renderPosts() {
 
       ${
         currentTab === "need"
-          ? post.hasResponded
-            ? `<button disabled style="opacity:0.6;">Already Offered</button>`
-            : post.showInput
-              ? `
-                <div>
-                  <input id="nameInput-${index}" placeholder="Enter your name" />
-                  <button onclick="submitInterest(${index})">Submit</button>
-                </div>
-              `
-              : `<button onclick="showInputBox(${index})">Offer Help</button>`
+          ? post.showInput
+            ? `
+              <div>
+                <input id="nameInput-${index}" placeholder="Enter your name" />
+                <button onclick="submitInterest(${index})">Submit</button>
+              </div>
+            `
+            : `<button onclick="showInputBox(${index})">Offer Help</button>`
           : ""
       }
 
-      <div>
+      <div style="margin-top:8px;">
+        <div style="font-size:12px; color:gray;">
+          ${(post.interestedUsers || []).length} interested
+        </div>
+
         ${(post.interestedUsers || []).length > 0 
-          ? (post.interestedUsers.map(user => `<div>👤 ${user}</div>`).join(""))
+          ? post.interestedUsers.map(user => `<div>👤 ${user}</div>`).join("")
           : "<div style='font-size:12px;color:gray;'>No one yet</div>"
         }
       </div>
@@ -136,7 +138,6 @@ function markInterested(index) {
   }
 
   posts[index].interestedUsers.push(name);
-  posts[index].hasResponded = true;
 
   renderPosts();
 }
@@ -175,7 +176,7 @@ function submitInterest(index) {
 
   posts[index].interestedUsers.push(name);
 
-  posts[index].hasResponded = true;
+
   posts[index].showInput = false;
 
   renderPosts();
