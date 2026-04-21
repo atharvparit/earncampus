@@ -39,13 +39,16 @@ postBtn.addEventListener("click", function () {
     return;
   }
 
+  let hostel = document.getElementById("hostelSelect").value;
+
   let post = {
     title: title,
     details: details,
     price: price,
     interestedUsers: [],
     showInput: false,
-    selectedUser: null
+    selectedUser: null,
+    hostel: hostel
   };
 
   if (currentTab === "need") {
@@ -67,8 +70,17 @@ let postFeed = document.getElementById("postFeed");
 function renderPosts() {
   postFeed.innerHTML = "";
 
-  let posts = currentTab === "need" ? needPosts : offerPosts;
+  let selectedHostel = document.getElementById("hostelSelect").value;
 
+  let posts = (currentTab === "need" ? needPosts : offerPosts)
+    .filter(function(post) {
+      return selectedHostel === "" || post.hostel === selectedHostel;
+    });
+  let hostelSelect = document.getElementById("hostelSelect");
+
+  hostelSelect.addEventListener("change", function () {
+    renderPosts();
+  });
   posts.forEach(function (post, index) {
     let postDiv = document.createElement("div");
     postDiv.className = "post-card";
