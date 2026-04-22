@@ -1,3 +1,18 @@
+let currentUser = "";
+let savedUser = localStorage.getItem("userName");
+
+if (savedUser) {
+  currentUser = savedUser;
+} else {
+  currentUser = prompt("Enter your name");
+
+  if (!currentUser || currentUser.trim() === "") {
+    currentUser = "Guest";
+  }
+
+  localStorage.setItem("userName", currentUser);
+}
+
 let currentTab = "need";
 
 let needPosts = [];
@@ -102,8 +117,7 @@ function renderPosts() {
           ? post.showInput
             ? `
               <div>
-                <input id="nameInput-${index}" placeholder="Enter your name" />
-                <button onclick="submitInterest(${index})">Submit</button>
+                <button onclick="submitInterest(${index})">Offer Help</button>
               </div>
             `
             : `<button onclick="showInputBox(${index})">Offer Help</button>`
@@ -182,8 +196,7 @@ function showInputBox(index) {
 }
 
 function submitInterest(index) {
-  let input = document.getElementById(`nameInput-${index}`);
-  let name = input.value;
+  let name = currentUser;
 
   if (!name) return;
 
