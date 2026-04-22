@@ -79,14 +79,21 @@ function renderPosts() {
   let hostelSelect = document.getElementById("hostelSelect");
 
   hostelSelect.addEventListener("change", function () {
+    localStorage.setItem("selectedHostel", hostelSelect.value);
     renderPosts();
   });
+  let savedHostel = localStorage.getItem("selectedHostel");
+
+  if (savedHostel) {
+    hostelSelect.value = savedHostel;
+  }
   posts.forEach(function (post, index) {
     let postDiv = document.createElement("div");
     postDiv.className = "post-card";
 
     postDiv.innerHTML = `
       <div class="post-title">${post.title}</div>
+      <div style="font-size:12px; color:gray;">📍 ${post.hostel || "General"}</div>
       <div>${post.details}</div>
       <div class="post-price">₹${post.price}</div>
 
