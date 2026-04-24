@@ -128,14 +128,14 @@ function renderPosts() {
         <div style="font-size:12px; color:gray;">
           ${(post.interestedUsers || []).length} interested
         </div>
-
+         
         ${
           post.selectedUser
             ? `<div style="color:green; font-weight:bold;">✅ Selected: ${post.selectedUser}</div>`
             : (post.interestedUsers || []).length > 0
               ? post.interestedUsers.map((user, i) => `
                   <div>
-                    👤 ${user}
+                    👤 ${user === currentUser ? user + " (You)" : user}
                     ${
                       currentTab === "need"
                         ? `<button onclick="acceptUser(${index}, ${i})" style="margin-left:10px;">Accept</button>`
