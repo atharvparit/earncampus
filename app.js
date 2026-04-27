@@ -113,15 +113,16 @@ function renderPosts() {
       <div class="post-price">₹${post.price}</div>
 
       ${
-        currentTab === "need"
-          ? post.showInput
+        post.interestedUsers.includes(currentUser)
+          ? `<div style="font-size:12px;color:green;">✔ You already offered</div>`
+          : post.showInput
             ? `
               <div>
-                <button onclick="submitInterest(${index})">Offer Help</button>
+                <input id="nameInput-${index}" placeholder="Enter your name" />
+                <button onclick="submitInterest(${index})">Submit</button>
               </div>
             `
             : `<button onclick="showInputBox(${index})">Offer Help</button>`
-          : ""
       }
 
       <div style="margin-top:8px;">
